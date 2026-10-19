@@ -1,98 +1,70 @@
-import java.util.*;
+import java.util.Scanner;
 
-//메뉴판
-String[] screenTypes = {"일반 2D", "3D 입체", "IMAX", "4DX"};
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
 
-int[] basePrices = {14000, 16000, 22000, 20000};
+        int price = 0;
+        String MenuName = "";
+        int totalAmount = 0;
 
-        //에러
-        final int ERROR = -9;
-        final String ERROR001 = "ERROR001 : 잘못된 상영관을 입력하셨습니다. 다시 입력해주세요";
-        final String ERROR002 = "ERROR002 : 잘못된 옵션을 입력하셨습니다. 다시 입력해주세요.";
+        String ERR001 = "없는 메뉴입니다.";
+        String ERR002 = "잘못된 메뉴 개수입니다.";
 
-        //인덱스 기본 가격 반환
-        int getBasePrice(int screenNumber)
+        
+        System.out.println(
+                """
+                메뉴
+                1.메뉴이름 :아메리카노 가격 : 3000원
+                2.메뉴이름 :카페라떼   가격 : 4000원
+                3.메뉴이름 :바닐라라떼 가격 : 4500원
+                4.메뉴이름 :초코라떼   가격 : 5000원
+                """);
+        //메뉴 번호 입력
+        System.out.print("원하시는 메뉴 번호를 입력해주세요 :");
+        int Number = sc.nextInt();
+        if(Number > 4 || Number < 1)
         {
-            return basePrices[screenNumber];
+            System.out.println(ERR001);
+            return;
         }
-
-        //숫자로 변환
-        int getScreenNumber(String selectedScreen)
+        //메뉴 개수 입력
+        System.out.print("메뉴의 개수를 입력해주세요(최대 99개) :");
+        int Quantity = sc.nextInt();
+        if(Quantity > 99|| Quantity < 0)
         {
-            if(selectedScreen == "일반 2D")
-                return 0;
-            if(selectedScreen == "3D 입체")
-                return 1;
-            if(selectedScreen == "IMAX")
-                return 2;
-            if(selectedScreen == "4DX")
-                return 3;
-            else
-                return -9;
+            System.out.println(ERR002);
+            return;
         }
-
-        //시간대 옵션
-        int getTimeOptionPrice(int timeCode)
+        //메뉴 번호 치환
+        switch (Number)
         {
-            switch(timeCode)
-            {
-                case 1:
-                    return -3000;
-                case 2:
-                    return 2000;
-                case 3:
-                    return -2000;
-                case 4:
-                    return 0;
-                default :
-                    return ERROR;
-            }
-        }
-
-        //시간대 출력
-        String getTimeOptionName(int timeCode)
-        {
-            switch(timeCode)
-            {
-                case 1:
-                    return "조조 할인";
-                case 2:
-                    return "프라임 타임";
-                case 3:
-                    return "심야 할인";
-                case 4:
-                    return "일반";
-                default :
-                    return ERROR002;
-            }
-        }
-
-        //영수증 출력
-        void printTicketReciept(String screenType, String timeOption, int basePrice, int optionPrice, int count)
-        {
-            System.out.println("=== \uD83C\uDFAC CG-BOX 예매 확인증 ===");
-            System.out.println("상영 종류 : "+screenType);
-            System.out.println("관람 시간 : "+timeOption);
-            System.out.println("예매 매수 : "+count+"매");
-            System.out.println("-------------------------");
-            System.out.println("총 결제 금액 : "+ (basePrice + optionPrice) * count +"원");
-            System.out.println("=========================");
-        }
-
-        void main()
-        {
-            String selectedScreen = "IMAX";
-            int timeCode = 1;
-            int count = 2;
-
-            int screenNumber = getScreenNumber(selectedScreen);
-            if(screenNumber == -9) {
-                System.out.println(ERROR001);
+            case 1 :
+                price = 3000;
+                MenuName = "아메리카노";
+                break;
+            case 2 :
+                price = 4000;
+                MenuName = "카페라떼";
+                break;
+            case 3 :
+                price = 4000;
+                MenuName = "바닐라라떼";
+                break;
+            case 4 :
+                price = 4000;
+                MenuName = "초코라떼";
+                break;
+            default:
+                System.out.println(ERR002);
                 return;
-            }
-
-            int basePrice = getBasePrice(screenNumber);
-            int optionPrice = getTimeOptionPrice(timeCode);
-            String timeOption = getTimeOptionName(timeCode);
-            printTicketReciept(selectedScreen, timeOption, basePrice, optionPrice, count);
         }
+        //최종 가격 계산
+        totalAmount = price * Quantity;
+
+        System.out.println("메뉴 번호 :"+ Number);
+        System.out.println("수랑: "+ Quantity);
+        System.out.println("주문 메뉴: "+ MenuName);
+        System.out.println("총 금액: "+ totalAmount);
+    }
+}
